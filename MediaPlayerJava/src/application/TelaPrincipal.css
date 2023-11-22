@@ -1,0 +1,21 @@
+.root{
+    -fx-background-image:url('file:D:/Documentos/workplacejava/MediaPlayerJava/images/TelaPrincipal.jpg');
+    -fx-background-size:cover;
+}
+
+/* Estilo do botão */
+.button {
+  -fx-background-color: white;
+  -fx-color: white;
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+}
+
+/* Efeito de brilho flutuante */
+.button:hover {
+  -fx-background-color: #fab4b6;
+  -fx-text-fill: black ;
+}
+
+
+
