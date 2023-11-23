@@ -3,8 +3,6 @@ package br.ufrn.imd.controle;
 import java.io.IOException;
 
 import br.ufrn.imd.dao.BancoDeDados;
-import br.ufrn.imd.dao.UsuarioComumDao;
-import br.ufrn.imd.dao.UsuarioVipDao;
 import br.ufrn.imd.modelo.UsuarioComum;
 import br.ufrn.imd.modelo.UsuarioVip;
 import javafx.event.ActionEvent;
