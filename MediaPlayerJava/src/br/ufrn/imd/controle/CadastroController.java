@@ -2,6 +2,7 @@ package br.ufrn.imd.controle;
 
 import java.io.IOException;
 
+import br.ufrn.imd.dao.BancoDeDados;
 import br.ufrn.imd.dao.UsuarioComumDao;
 import br.ufrn.imd.dao.UsuarioVipDao;
 import br.ufrn.imd.modelo.UsuarioComum;
@@ -36,7 +37,6 @@ public class CadastroController {
 	@FXML
 	private RadioButton vip;
 	private Stage estado;
-	
 	private double xOffset = 0;
     private double yOffset = 0;
 	private Stage stage;
@@ -62,21 +62,19 @@ public class CadastroController {
 		scene = new Scene(root);
 		stage.setScene(scene);
 		stage.show();
-
-		
+	
 	}
 	
-
 	public void Cadastrar(ActionEvent event) {
 	    String nome = nomee.getText();
 	    String senha = senhaa.getText();
 	    
 	    if(vip.isSelected()) {
-	    	UsuarioVipDao usuarioDao = UsuarioVipDao.getInstance();
+	    	BancoDeDados usuarioDao = BancoDeDados.getInstance();
 	 	    if (usuarioDao.usuarioExiste(nome)) {
 	 	        Alert alert = new Alert(AlertType.INFORMATION);
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usu√°rio j√° existe");
+	 			alert.setHeaderText("Usu·rio j· existe");
 	 			alert.setContentText("Insira outro nome");
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 	    	  System.out.println("Alerta fechado");
@@ -85,17 +83,23 @@ public class CadastroController {
 	 	        UsuarioVip usuario = new UsuarioVip();
 	 	        usuario.setNome(nome);
 	 	        usuario.setSenha(senha);
+	 	        usuario.setTipo("Vip");
 	 	        usuarioDao.adicionarUsuario(usuario);
-	 	        System.out.println("Usu√°rio cadastrado com sucesso!");
+	 	        Alert alert = new Alert(AlertType.INFORMATION);
+	 	    	alert.initStyle(StageStyle.UNDECORATED);
+	 			alert.setHeaderText("Usu·rio cadastrado com sucesso!");
+	 			if(alert.showAndWait().get() == ButtonType.OK){
+	 	    	  System.out.println("Alerta fechado");
+	 			}
 	 	    }
 	    }
 	    
 	    else {
-	    	UsuarioComumDao usuarioDao = UsuarioComumDao.getInstance();
+	    	BancoDeDados usuarioDao = BancoDeDados.getInstance();
 	 	    if (usuarioDao.usuarioExiste(nome)) {
 	 	    	Alert alert = new Alert(AlertType.INFORMATION);
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usu√°rio j√° existe");
+	 			alert.setHeaderText("Usu·rio j· existe");
 	 			alert.setContentText("Insira outro nome");
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 	    	  System.out.println("Alerta fechado");
@@ -104,8 +108,14 @@ public class CadastroController {
 	 	        UsuarioComum usuario = new UsuarioComum();
 	 	        usuario.setNome(nome);
 	 	        usuario.setSenha(senha);
+	 	        usuario.setTipo("Comum");
 	 	        usuarioDao.adicionarUsuario(usuario);
-	 	        System.out.println("Usu√°rio cadastrado com sucesso!");
+	 	        Alert alert = new Alert(AlertType.INFORMATION);
+	 	    	alert.initStyle(StageStyle.UNDECORATED);
+	 			alert.setHeaderText("Usu·rio cadastrado com sucesso!");
+	 			if(alert.showAndWait().get() == ButtonType.OK){
+	 				System.out.println("Alerta fechado");
+		 		}
 	 	    }
 	    }
 	}
@@ -116,7 +126,7 @@ public class CadastroController {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Saindo");
 		alert.setHeaderText("Tem certeza de que quer sair?");
-		alert.setContentText("O progresso n√£o ser√° salvo!");
+		alert.setContentText("O progresso n„o ser· salvo!");
 		
 		if(alert.showAndWait().get() == ButtonType.OK){
 			estado = (Stage)((Node)event.getSource()).getScene().getWindow();

@@ -2,6 +2,7 @@ package br.ufrn.imd.controle;
 
 import java.io.IOException;
 
+import br.ufrn.imd.dao.BancoDeDados;
 import br.ufrn.imd.dao.UsuarioComumDao;
 import br.ufrn.imd.dao.UsuarioVipDao;
 import br.ufrn.imd.modelo.UsuarioComum;
@@ -87,10 +88,9 @@ public class LoginController {
 	public void Entrar(ActionEvent event) throws IOException {
 	    String nome = textNome.getText();
 	    String senha = textSenha.getText();
-	    UsuarioVipDao usuarioVipDao = UsuarioVipDao.getInstance();
-	    UsuarioComumDao usuarioComumDao = UsuarioComumDao.getInstance();
-	 	if (usuarioComumDao.usuarioExiste(nome)) {
-	 		if(usuarioComumDao.getUsuario(nome).getSenha().equals(senha)) {
+	    BancoDeDados usuarioDao = BancoDeDados.getInstance();
+	 	if (usuarioDao.usuarioExiste(nome)) {
+	 		if(usuarioDao.getUsuario(nome).getSenha().equals(senha)) {
 	 	 	   	TelaPrincipal(event);
 	 		}
 	 		else {
@@ -101,24 +101,9 @@ public class LoginController {
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 				System.out.println("Alerta fechado");
 		 		}
-	 		}
-	 	   
+	 		}   
 	 	} 
-	 	if(usuarioVipDao.usuarioExiste(nome))  {
-	 		if(usuarioVipDao.getUsuario(nome).getSenha().equals(senha)) {
-	 	 	   	TelaPrincipal(event);
-	 		}
-	 		else {
-	 			Alert alert = new Alert(AlertType.INFORMATION);
-	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Senha incorreta");
-	 			alert.setContentText("Tente novamente");
-	 			if(alert.showAndWait().get() == ButtonType.OK){
-	 				System.out.println("Alerta fechado");
-		 		}
-	 		}
-	 	}
-	 	if(!usuarioVipDao.usuarioExiste(nome) && !usuarioComumDao.usuarioExiste(nome)) { 
+	 	else{ 
 	 		Alert alert = new Alert(AlertType.INFORMATION);
  	    	alert.initStyle(StageStyle.UNDECORATED);
  			alert.setHeaderText("Usuário não existe");
