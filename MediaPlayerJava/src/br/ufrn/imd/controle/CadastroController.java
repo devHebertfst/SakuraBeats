@@ -72,7 +72,7 @@ public class CadastroController {
 	 	    if (usuarioDao.usuarioExiste(nome)) {
 	 	        Alert alert = new Alert(AlertType.INFORMATION);
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuário já existe");
+	 			alert.setHeaderText("Usuario ja existe");
 	 			alert.setContentText("Insira outro nome");
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 	    	  System.out.println("Alerta fechado");
@@ -85,7 +85,7 @@ public class CadastroController {
 	 	        usuarioDao.adicionarUsuario(usuario);
 	 	        Alert alert = new Alert(AlertType.INFORMATION);
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuário cadastrado com sucesso!");
+	 			alert.setHeaderText("Usuario cadastrado com sucesso!");
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 	    	  System.out.println("Alerta fechado");
 	 			}
@@ -97,7 +97,7 @@ public class CadastroController {
 	 	    if (usuarioDao.usuarioExiste(nome)) {
 	 	    	Alert alert = new Alert(AlertType.INFORMATION);
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuário já existe");
+	 			alert.setHeaderText("Usuario ja existe");
 	 			alert.setContentText("Insira outro nome");
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 	    	  System.out.println("Alerta fechado");
@@ -110,7 +110,7 @@ public class CadastroController {
 	 	        usuarioDao.adicionarUsuario(usuario);
 	 	        Alert alert = new Alert(AlertType.INFORMATION);
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuário cadastrado com sucesso!");
+	 			alert.setHeaderText("Usuario cadastrado com sucesso!");
 	 			if(alert.showAndWait().get() == ButtonType.OK){
 	 				System.out.println("Alerta fechado");
 		 		}
@@ -124,7 +124,7 @@ public class CadastroController {
 		Alert alert = new Alert(AlertType.CONFIRMATION);
 		alert.setTitle("Saindo");
 		alert.setHeaderText("Tem certeza de que quer sair?");
-		alert.setContentText("O progresso não será salvo!");
+		alert.setContentText("Sentiremos sua falta!");
 		
 		if(alert.showAndWait().get() == ButtonType.OK){
 			estado = (Stage)((Node)event.getSource()).getScene().getWindow();

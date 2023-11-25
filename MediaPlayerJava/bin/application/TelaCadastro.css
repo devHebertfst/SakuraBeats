@@ -1,5 +1,5 @@
 .root{
-    -fx-background-image:url('/images/TelaCadastro.jpg');
+    -fx-background-image:url('../../images/TelaCadastro.jpg');
     -fx-background-size:cover;
 }
 
