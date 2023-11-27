@@ -25,9 +25,9 @@ import javafx.stage.StageStyle;
 public class CadastroController {
 
 	@FXML
-	private PasswordField senhaa;
+	private PasswordField textSenha;
 	@FXML
-	private TextField nomee;
+	private TextField textNome;
 	@FXML
 	private Button logoutButton;
 	@FXML
@@ -41,7 +41,7 @@ public class CadastroController {
 	private Scene scene;
 	private Parent root;
 	
-	public void MenuLogin(ActionEvent event) throws IOException {
+	public void menuLogin(ActionEvent event) throws IOException {
 		
 		FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/ufrn/imd/visao/TelaLogin.fxml"));	
 		root = loader.load();	
@@ -54,8 +54,7 @@ public class CadastroController {
 	        stage.setX(e.getScreenX() - xOffset);
 	        stage.setY(e.getScreenY() - yOffset);
 	    });
-		
-		//root = FXMLLoader.load(getClass().getResource("Scene2.fxml"));	
+			
 		stage = (Stage)((Node)event.getSource()).getScene().getWindow();
 		scene = new Scene(root);
 		stage.setScene(scene);
@@ -63,61 +62,48 @@ public class CadastroController {
 	
 	}
 	
-	public void Cadastrar(ActionEvent event) {
-	    String nome = nomee.getText();
-	    String senha = senhaa.getText();
+	public void cadastrar(ActionEvent event) {
+	    String nome = textNome.getText();
+	    String senha = textSenha.getText();
 	    
-	    if(vip.isSelected()) {
-	    	BancoDeDados usuarioDao = BancoDeDados.getInstance();
-	 	    if (usuarioDao.usuarioExiste(nome)) {
-	 	        Alert alert = new Alert(AlertType.INFORMATION);
-	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuario ja existe");
-	 			alert.setContentText("Insira outro nome");
-	 			if(alert.showAndWait().get() == ButtonType.OK){
-	 	    	  System.out.println("Alerta fechado");
-	 			}
-	 	    } else {
-	 	        UsuarioVip usuario = new UsuarioVip();
-	 	        usuario.setNome(nome);
-	 	        usuario.setSenha(senha);
-	 	        usuario.setTipo("Vip");
-	 	        usuarioDao.adicionarUsuario(usuario);
-	 	        Alert alert = new Alert(AlertType.INFORMATION);
-	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuario cadastrado com sucesso!");
-	 			if(alert.showAndWait().get() == ButtonType.OK){
-	 	    	  System.out.println("Alerta fechado");
-	 			}
-	 	    }
+	    if(nome.isEmpty() || senha.isEmpty()) {
+	    	Alert alert = new Alert(AlertType.INFORMATION);
+	    	alert.initStyle(StageStyle.UNDECORATED);
+	    	alert.setHeaderText("Nome ou senha nao podem estar vazios");
+	    	alert.showAndWait();
+	    } else {
+	        BancoDeDados usuarioDao = BancoDeDados.getInstance();
+	        if (usuarioDao.usuarioExiste(nome)) {
+	            Alert alert = new Alert(AlertType.INFORMATION);
+	            alert.initStyle(StageStyle.UNDECORATED);
+	            alert.setHeaderText("Usuario ja existe");
+	            alert.showAndWait();
+	        } else {
+	            if(vip.isSelected()) {
+	                UsuarioVip usuario = new UsuarioVip();
+	                usuario.setNome(nome);
+	                usuario.setSenha(senha);
+	                usuarioDao.adicionarUsuario(usuario);
+	                Alert alert = new Alert(AlertType.INFORMATION);
+	                alert.initStyle(StageStyle.UNDECORATED);
+	                alert.setHeaderText("Usuario VIP cadastrado com sucesso!");
+	                alert.showAndWait();
+	            } else {
+	                UsuarioComum usuario = new UsuarioComum();
+	                usuario.setNome(nome);
+	                usuario.setSenha(senha);
+	                usuarioDao.adicionarUsuario(usuario);
+	                Alert alert = new Alert(AlertType.INFORMATION);
+	                alert.initStyle(StageStyle.UNDECORATED);
+	                alert.setHeaderText("Usuario comum cadastrado com sucesso!");
+	                alert.showAndWait();
+	            }
+	            usuarioDao.salvarUsuariosEmArquivo();
+	        }
 	    }
-	    
-	    else {
-	    	BancoDeDados usuarioDao = BancoDeDados.getInstance();
-	 	    if (usuarioDao.usuarioExiste(nome)) {
-	 	    	Alert alert = new Alert(AlertType.INFORMATION);
-	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuario ja existe");
-	 			alert.setContentText("Insira outro nome");
-	 			if(alert.showAndWait().get() == ButtonType.OK){
-	 	    	  System.out.println("Alerta fechado");
-	 			}
-	 	    } else {
-	 	        UsuarioComum usuario = new UsuarioComum();
-	 	        usuario.setNome(nome);
-	 	        usuario.setSenha(senha);
-	 	        usuario.setTipo("Comum");
-	 	        usuarioDao.adicionarUsuario(usuario);
-	 	        Alert alert = new Alert(AlertType.INFORMATION);
-	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Usuario cadastrado com sucesso!");
-	 			if(alert.showAndWait().get() == ButtonType.OK){
-	 				System.out.println("Alerta fechado");
-		 		}
-	 	    }
-	    }
+	    textNome.clear();
+	    textSenha.clear();
 	}
-
 	
 	public void logout(ActionEvent event) {
 		

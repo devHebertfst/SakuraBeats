@@ -1,0 +1,18 @@
+ID: 1
+Nome: pedro
+Senha: 12345
+Tipo: comum
+Diretorio: null
+
+ID: 2
+Nome: julio
+Senha: 4321
+Tipo: comum
+Diretorio: null
+
+ID: 3
+Nome: mateus
+Senha: 54gs1543
+Tipo: vip
+Diretorio: null
+
