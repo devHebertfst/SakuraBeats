@@ -96,9 +96,7 @@ public class LoginController {
 	 	    	alert.initStyle(StageStyle.UNDECORATED);
 	 			alert.setHeaderText("Senha incorreta");
 	 			alert.setContentText("Tente novamente");
-	 			if(alert.showAndWait().get() == ButtonType.OK){
-	 				System.out.println("Alerta fechado");
-		 		}
+	 			alert.showAndWait();
 	 		}   
 	 	} 
 	 	else{ 
@@ -106,9 +104,7 @@ public class LoginController {
  	    	alert.initStyle(StageStyle.UNDECORATED);
  			alert.setHeaderText("Usuário não existe");
  			alert.setContentText("Realize um novo cadastro");
- 			if(alert.showAndWait().get() == ButtonType.OK){
- 				System.out.println("Alerta fechado");
-	 		}
+ 			alert.showAndWait();
 	 	}
 	    
 	}

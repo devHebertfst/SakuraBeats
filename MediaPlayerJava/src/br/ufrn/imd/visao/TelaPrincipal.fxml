@@ -14,26 +14,24 @@
 
 <AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" stylesheets="@../../../../application/TelaPrincipal.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="br.ufrn.imd.controle.TelaPrincipalController">
    <children>
-      <MenuBar prefHeight="27.0" prefWidth="141.0">
+      <MenuBar cacheShape="false" centerShape="false" focusTraversable="false" prefHeight="27.0" prefWidth="800.0" scaleShape="false">
         <menus>
-          <Menu mnemonicParsing="false" text="File">
+          <Menu mnemonicParsing="false" text="Usuário">
             <items>
-              <MenuItem mnemonicParsing="false" text="Close" />
+              <MenuItem fx:id="sair" mnemonicParsing="false" onAction="#sair" text="Desconectar" />
+                  <MenuItem mnemonicParsing="false" text="Excluir conta" />
             </items>
           </Menu>
-          <Menu mnemonicParsing="false" text="Edit">
-            <items>
-              <MenuItem mnemonicParsing="false" text="Delete" />
-            </items>
-          </Menu>
-          <Menu mnemonicParsing="false" text="Ajuda">
-            <items>
-              <MenuItem mnemonicParsing="false" text="About" />
-            </items>
-          </Menu>
+            <Menu mnemonicParsing="false" text="Playlists">
+               <items>
+                  <MenuItem mnemonicParsing="false" text="Adicionar Musica" />
+                  <MenuItem mnemonicParsing="false" text="Remover Musica" />
+                  <MenuItem mnemonicParsing="false" text="Apagar Playlist" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
-      <Button fx:id="btnSair" layoutX="753.0" layoutY="24.0" mnemonicParsing="false" onAction="#logout" text="X" />
+      <Button fx:id="btnSair" layoutX="745.0" layoutY="43.0" mnemonicParsing="false" onAction="#logout" text="X" />
       <ListView fx:id="listMusicas" layoutX="112.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
       <ListView layoutX="362.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
       <ListView layoutX="644.0" layoutY="269.0" prefHeight="137.0" prefWidth="129.0" />
@@ -41,13 +39,13 @@
       <Button fx:id="btnVoltar" layoutX="51.0" layoutY="517.0" mnemonicParsing="false" text="&lt;|" />
       <Button fx:id="btnPausar" layoutX="112.0" layoutY="517.0" mnemonicParsing="false" text="| |" />
       <Button fx:id="btnAvancar" layoutX="175.0" layoutY="517.0" mnemonicParsing="false" text="|&gt;" />
-      <Text fill="WHITE" layoutX="175.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Musicas" textAlignment="CENTER" wrappingWidth="74.0">
+      <Text layoutX="175.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Musicas" textAlignment="CENTER" wrappingWidth="74.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
       </Text>
       <Slider fx:id="sliderMusica" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="312.0" layoutY="520.0" prefHeight="14.0" prefWidth="406.0" scaleShape="false" />
-      <Text fill="WHITE" layoutX="674.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists">
+      <Text layoutX="674.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
@@ -57,7 +55,7 @@
             <Font name="Arial Rounded MT Bold" size="18.0" />
          </font>
       </Button>
-      <Text fill="WHITE" layoutX="655.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nova Playlist">
+      <Text layoutX="655.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nova Playlist">
          <font>
             <Font name="Arial Rounded MT Bold" size="17.0" />
          </font>
