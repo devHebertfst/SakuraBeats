@@ -1,7 +1,8 @@
 .root{
-    -fx-background-image:url('../../images/TelaPlayer.jpg');
+    -fx-background-image:url('../../images/TelaCadastro.jpg');
     -fx-background-size:cover;
 }
+
 
 /* Estilo do botão */
 .button {
@@ -18,14 +19,14 @@
 }
 
 #sliderMusica .track {
-    -fx-background-color: white;
+    -fx-background-color: transparent;
     -fx-border-radius: 0px;
     -fx-background-radius: 0px;
     -fx-pref-height: 20px;
 }
 
 #sliderMusica .thumb {
-    -fx-background-color: pink;
+    -fx-background-color: #86385a;
     -fx-background-radius: 0px;
     -fx-border-color: white;
     -fx-border-radius: 0px;
@@ -37,6 +38,37 @@
 #sliderMusica .track .filled {
     -fx-background-color: red;
 }
+
+.progress-bar .track{
+	-fx-background-radius: 0;
+}
+
+.progress-bar .bar{
+	-fx-background-color: linear-gradient(to right, #86385a, #07454f);
+	-fx-background-radius: 0;
+	-fx-background-insets: 0px;
+}
+
+.menu-bar {
+    -fx-background-color: #86385a;
+}
+
+
+.menu .label{
+	-fx-font-size: 16px;
+  	-fx-font-weight: bold;
+    -fx-text-fill: white;
+}
+
+.menu-item {
+	-fx-background-color: #07454f;
+    -fx-text-fill: black;
+}
+
+.menu-item:hover {
+    -fx-background-color: #86385a;
+}
+
 
 
 

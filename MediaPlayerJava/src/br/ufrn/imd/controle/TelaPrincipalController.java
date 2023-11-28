@@ -1,9 +1,12 @@
 package br.ufrn.imd.controle;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
-import java.util.Optional;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import br.ufrn.imd.modelo.Musica;
@@ -22,6 +25,10 @@ import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.Slider;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.control.Alert.AlertType;
@@ -52,6 +59,18 @@ public class TelaPrincipalController implements Initializable {
 	@FXML
 	private Label lbTipo;
 	
+	@FXML
+	private ImageView imgAvatar;
+	
+	@FXML
+	private Slider sliderMusica;
+	
+	@FXML
+	private ProgressBar proSlider;
+	
+	
+	private List<Image> images = new ArrayList<>();
+    private int imageIndex = 0;
 	private Parent root;
 	private double xOffset = 0;
     private double yOffset = 0;
@@ -63,17 +82,34 @@ public class TelaPrincipalController implements Initializable {
 	
 	@Override
     public void initialize(URL url, ResourceBundle rb) {
+		progressao();
         lbNome.setText(getUsuarioLogado().getNome());
         lbTipo.setText(getUsuarioLogado().getTipo());
+        try {
+            for (int i = 1; i <= 7; i++) {
+                images.add(new Image(new FileInputStream("avatares/avatar" + i + ".png")));
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+
+        imgAvatar.setImage(images.get(imageIndex));
+
+        imgAvatar.setOnMouseClicked(event -> {
+            imageIndex = (imageIndex + 1) % images.size();
+            imgAvatar.setImage(images.get(imageIndex));
+        });
     }
+	
+	private void progressao() {
+		sliderMusica.valueProperty().addListener((obs, oldValue, newValue)->{
+			proSlider.setProgress(newValue.doubleValue()/sliderMusica.getMax());
+		});
+	}
 	
 	public Usuario getUsuarioLogado() {
 		ServicoAutenticacao servicoAutenticacao = ServicoAutenticacao.getInstance();
 		return servicoAutenticacao.getUsuarioLogado();
-	}
-
-	public void setUsuarioLogado(Usuario usuarioLogado) {
-		this.usuarioLogado = usuarioLogado;
 	}
 
 	public void tocarMusica() {
@@ -91,6 +127,7 @@ public class TelaPrincipalController implements Initializable {
 	public void avancarMusica() {
 		
 	}
+	
 	
 	@FXML
     private MenuItem mnItemFileAddFile;

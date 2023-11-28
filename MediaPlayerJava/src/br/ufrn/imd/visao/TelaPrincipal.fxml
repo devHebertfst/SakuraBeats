@@ -1,13 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
+<?import javafx.scene.Cursor?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.Menu?>
 <?import javafx.scene.control.MenuBar?>
 <?import javafx.scene.control.MenuItem?>
+<?import javafx.scene.control.ProgressBar?>
 <?import javafx.scene.control.Slider?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.shape.Rectangle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
@@ -26,6 +31,7 @@
           </Menu>
             <Menu mnemonicParsing="false" text="Playlists">
                <items>
+                  <MenuItem fx:id="mnItemFileAddFile1" mnemonicParsing="false" onAction="#abrirTelaAddFile" text="Adicionar Playlist" />
                   <MenuItem mnemonicParsing="false" text="Adicionar Musica" />
                   <MenuItem mnemonicParsing="false" text="Remover Musica" />
                   <MenuItem mnemonicParsing="false" text="Apagar Playlist" />
@@ -34,32 +40,21 @@
         </menus>
       </MenuBar>
       <Button fx:id="btnSair" layoutX="745.0" layoutY="43.0" mnemonicParsing="false" onAction="#logout" text="X" />
-      <ListView fx:id="listMusicas" layoutX="112.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
-      <ListView layoutX="362.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
-      <ListView layoutX="644.0" layoutY="269.0" prefHeight="137.0" prefWidth="129.0" />
-      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#1c5f78de" height="104.0" layoutX="14.0" layoutY="482.0" stroke="TRANSPARENT" strokeType="INSIDE" width="774.0" />
+      <ListView fx:id="listMusicas" layoutX="51.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
+      <ListView layoutX="307.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
+      <ListView layoutX="554.0" layoutY="337.0" prefHeight="137.0" prefWidth="129.0" />
+      <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#07334db2" height="104.0" layoutX="14.0" layoutY="482.0" stroke="TRANSPARENT" strokeType="INSIDE" width="774.0" />
       <Button fx:id="btnVoltar" layoutX="51.0" layoutY="517.0" mnemonicParsing="false" text="&lt;|" />
       <Button fx:id="btnPausar" layoutX="112.0" layoutY="517.0" mnemonicParsing="false" text="| |" />
       <Button fx:id="btnAvancar" layoutX="175.0" layoutY="517.0" mnemonicParsing="false" text="|&gt;" />
-      <Text layoutX="175.0" layoutY="77.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Musicas" textAlignment="CENTER" wrappingWidth="74.0">
+      <Text fill="WHITE" layoutX="97.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Musicas" textAlignment="CENTER" wrappingWidth="109.0">
          <font>
-            <Font name="Arial Rounded MT Bold" size="17.0" />
+            <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Slider fx:id="sliderMusica" cacheShape="false" centerShape="false" focusTraversable="false" layoutX="312.0" layoutY="520.0" prefHeight="14.0" prefWidth="406.0" scaleShape="false" />
-      <Text layoutX="674.0" layoutY="248.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists">
+      <Text fill="WHITE" layoutX="578.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists">
          <font>
-            <Font name="Arial Rounded MT Bold" size="17.0" />
-         </font>
-      </Text>
-      <Button fx:id="btnAdicionarPlaylist" layoutX="610.0" layoutY="432.0" mnemonicParsing="false" text="+">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="18.0" />
-         </font>
-      </Button>
-      <Text layoutX="655.0" layoutY="456.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Nova Playlist">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="17.0" />
+            <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
       <Label layoutX="483.0" layoutY="482.0" text="Label" textFill="WHITE">
@@ -67,15 +62,34 @@
             <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>
       </Label>
-      <Label fx:id="lbNome" layoutX="609.0" layoutY="80.0" text="Nome">
+      <Label fx:id="lbNome" layoutX="588.0" layoutY="33.0" text="Nome" textFill="WHITE">
          <font>
-            <Font name="Arial Rounded MT Bold" size="24.0" />
+            <Font name="Arial Rounded MT Bold" size="21.0" />
          </font>
       </Label>
-      <Label fx:id="lbTipo" layoutX="609.0" layoutY="162.0" text="Tipo">
+      <Label fx:id="lbTipo" layoutX="588.0" layoutY="189.0" text="Tipo" textFill="WHITE">
          <font>
-            <Font name="Arial Rounded MT Bold" size="24.0" />
+            <Font name="Arial Rounded MT Bold" size="21.0" />
          </font>
       </Label>
+      <ImageView fx:id="imgAvatar" fitHeight="128.0" fitWidth="96.0" layoutX="588.0" layoutY="61.0" pickOnBounds="true">
+         <image>
+            <Image url="@../../../../../avatares/Avatar7.png" />
+         </image>
+         <cursor>
+            <Cursor fx:constant="HAND" />
+         </cursor>
+      </ImageView>
+      <StackPane layoutX="324.0" layoutY="466.0" prefHeight="150.0" prefWidth="406.0">
+         <children>
+            <ProgressBar fx:id="proSlider" prefHeight="14.0" prefWidth="406.0" progress="1.0" />
+            <Slider fx:id="sliderMusica" cacheShape="false" centerShape="false" focusTraversable="false" prefHeight="30.0" prefWidth="406.0" scaleShape="false" />
+         </children>
+      </StackPane>
+      <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="56.0" layoutY="337.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="@../../../../../images/Logo.png" />
+         </image>
+      </ImageView>
    </children>
 </AnchorPane>
