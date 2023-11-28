@@ -50,10 +50,10 @@ public class Playlist {
 	}
 	
 	public void addMusica(Musica musica) {
-		musicas.put(musica.getTitulo(), musica);
+		musicas.put(musica.getNome(), musica);
 	}
 	
 	public void removerMusica(Musica musica) {
-		musicas.remove(musica.getTitulo());
+		musicas.remove(musica.getNome());
 	}
 }

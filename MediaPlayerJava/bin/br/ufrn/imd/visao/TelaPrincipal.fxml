@@ -18,6 +18,8 @@
         <menus>
           <Menu mnemonicParsing="false" text="Usuário">
             <items>
+                  <MenuItem fx:id="mnItemFileAddFile" mnemonicParsing="false" onAction="#abrirTelaAddFile" text="Adicionar Musica" />
+                  <MenuItem fx:id="mnItemFileAddDirectory" mnemonicParsing="false" onAction="#abrirTelaAddDirectory" text="Adicionar Diretorio" />
               <MenuItem fx:id="sair" mnemonicParsing="false" onAction="#sair" text="Desconectar" />
                   <MenuItem mnemonicParsing="false" text="Excluir conta" />
             </items>
@@ -61,6 +63,16 @@
          </font>
       </Text>
       <Label layoutX="483.0" layoutY="482.0" text="Label" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbNome" layoutX="609.0" layoutY="80.0" text="Nome">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="24.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTipo" layoutX="609.0" layoutY="162.0" text="Tipo">
          <font>
             <Font name="Arial Rounded MT Bold" size="24.0" />
          </font>

@@ -1,27 +1,41 @@
 package br.ufrn.imd.modelo;
 
+import java.util.UUID;
+
 public class Musica {
-	private String titulo;
-	private Integer id;
+	private String id;
+	private String nome;
 	private String caminho;
 	
-	public String getTitulo() {
-		return titulo;
+	public Musica() {
+		UUID uuid = UUID.randomUUID();
+		this.id = uuid.toString();
+		
+		this.nome = "";
+		this.caminho = "";
 	}
-	public void setTitulo(String titulo) {
-		this.titulo = titulo;
-	}
-	public Integer getId() {
+	
+	public String getId() {
 		return id;
 	}
-	public void setId(Integer id) {
+	//N�o permitiremos que o ID seja alterado. Esse ID deve ser gerado pelo sistema.
+	/*public void setId(String id) {
 		this.id = id;
+	}*/
+	
+	public String getNome() {
+		return nome;
 	}
+	
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+	
 	public String getCaminho() {
 		return caminho;
 	}
+	
 	public void setCaminho(String caminho) {
 		this.caminho = caminho;
 	}
-	
 }

@@ -3,6 +3,7 @@ package br.ufrn.imd.controle;
 import java.io.IOException;
 
 import br.ufrn.imd.dao.BancoDeDados;
+import br.ufrn.imd.modelo.ServicoAutenticacao;
 import br.ufrn.imd.modelo.UsuarioComum;
 import br.ufrn.imd.modelo.UsuarioVip;
 import javafx.event.ActionEvent;
@@ -86,26 +87,12 @@ public class LoginController {
 	public void Entrar(ActionEvent event) throws IOException {
 	    String nome = textNome.getText();
 	    String senha = textSenha.getText();
-	    BancoDeDados usuarioDao = BancoDeDados.getInstance();
-	 	if (usuarioDao.usuarioExiste(nome)) {
-	 		if(usuarioDao.getUsuario(nome).getSenha().equals(senha)) {
-	 	 	   	TelaPrincipal(event);
-	 		}
-	 		else {
-	 			Alert alert = new Alert(AlertType.INFORMATION);
-	 	    	alert.initStyle(StageStyle.UNDECORATED);
-	 			alert.setHeaderText("Senha incorreta");
-	 			alert.setContentText("Tente novamente");
-	 			alert.showAndWait();
-	 		}   
-	 	} 
-	 	else{ 
-	 		Alert alert = new Alert(AlertType.INFORMATION);
- 	    	alert.initStyle(StageStyle.UNDECORATED);
- 			alert.setHeaderText("Usuário não existe");
- 			alert.setContentText("Realize um novo cadastro");
- 			alert.showAndWait();
-	 	}
+	    ServicoAutenticacao servicoAutenticacao = ServicoAutenticacao.getInstance();
+	    
+	    if(servicoAutenticacao.realizarLogin(nome, senha)) {
+	    	System.out.print(servicoAutenticacao.getUsuarioLogado().getNome());
+	    	TelaPrincipal(event);
+	    }
 	    
 	}
 	
