@@ -1,0 +1,21 @@
+.root{
+    -fx-background-image:url('../../images/TelaCadastro.jpg');
+    -fx-background-size:cover;
+}
+
+/* Estilo do botão */
+.button {
+  -fx-background-color: white;
+  -fx-text-fill: black;
+  -fx-font-size: 16px;
+  -fx-font-weight: bold;
+}
+
+/* Efeito de brilho flutuante */
+.button:hover {
+  -fx-background-color: #ccfcff;
+  -fx-text-fill: black;
+}
+
+
+
