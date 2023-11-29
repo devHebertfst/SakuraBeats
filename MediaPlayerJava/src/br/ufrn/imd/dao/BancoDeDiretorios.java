@@ -47,6 +47,20 @@ public class BancoDeDiretorios {
         diretorios.remove(diretorio);
         salvarDiretorios();
     }
+    
+    public Diretorio verificarDiretorio(String caminho) {
+        // Percorrer a lista de diretórios
+        for (Diretorio diretorio : diretorios) {
+            // Se o caminho do diretório for igual ao parâmetro, retornar o diretório
+            if (diretorio.getCaminho().equals(caminho)) {
+                return diretorio;
+            }
+        }
+        // Se nenhum diretório for encontrado, retornar null
+        return null;
+    }
+
+
 
     // este método lê os diretórios do arquivo e cria objetos Diretorio para cada um
     public void carregarDiretorios() {

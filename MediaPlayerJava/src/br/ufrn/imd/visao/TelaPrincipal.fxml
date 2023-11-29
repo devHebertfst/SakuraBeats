@@ -24,11 +24,12 @@
           <Menu mnemonicParsing="false" text="Usuário">
             <items>
                   <MenuItem fx:id="mnItemFileAddDirectory" mnemonicParsing="false" onAction="#abrirTelaAddDirectory" text="Adicionar Diretorio" />
+                  <MenuItem fx:id="mnItemFileAddDirectory1" mnemonicParsing="false" onAction="#abrirTelaAddDirectory" text="Remover Diretorio" />
               <MenuItem fx:id="sair" mnemonicParsing="false" onAction="#sair" text="Desconectar" />
                   <MenuItem mnemonicParsing="false" text="Excluir conta" />
             </items>
           </Menu>
-            <Menu mnemonicParsing="false" text="Playlists">
+            <Menu fx:id="mnPlaylists" mnemonicParsing="false" text="Playlists">
                <items>
                   <MenuItem mnemonicParsing="false" onAction="#abrirTelaAddFile" text="Adicionar Playlist" />
                   <MenuItem mnemonicParsing="false" text="Adicionar Musica" />
@@ -36,37 +37,41 @@
                   <MenuItem mnemonicParsing="false" text="Apagar Playlist" />
                </items>
             </Menu>
+            <Menu mnemonicParsing="false" text="Ajuda">
+               <items>
+                  <MenuItem mnemonicParsing="false" onAction="#abrirTelaAddFile" text="Adicionar Playlist" />
+                  <MenuItem mnemonicParsing="false" text="Readme" />
+               </items>
+            </Menu>
         </menus>
       </MenuBar>
       <Button fx:id="btnSair" layoutX="745.0" layoutY="43.0" mnemonicParsing="false" onAction="#logout" text="X" />
-      <ListView fx:id="listMusicas" layoutX="51.0" layoutY="94.0" prefHeight="243.0" prefWidth="200.0" />
+      <ListView fx:id="listMusicas" layoutX="51.0" layoutY="94.0" onMouseClicked="#pausarTocar" prefHeight="243.0" prefWidth="200.0" />
       <ListView fx:id="listDiretorios" layoutX="307.0" layoutY="94.0" onMouseClicked="#exibirMusicas" prefHeight="243.0" prefWidth="200.0" />
       <ListView fx:id="listPlaylists" layoutX="554.0" layoutY="337.0" prefHeight="137.0" prefWidth="129.0" />
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#07334db2" height="104.0" layoutX="14.0" layoutY="482.0" stroke="TRANSPARENT" strokeType="INSIDE" width="774.0" />
-      <Button fx:id="btnVoltar" layoutX="51.0" layoutY="517.0" mnemonicParsing="false" text="&lt;|" />
-      <Button fx:id="btnPausar" layoutX="112.0" layoutY="517.0" mnemonicParsing="false" text="| |" />
-      <Button fx:id="btnAvancar" layoutX="175.0" layoutY="517.0" mnemonicParsing="false" text="|&gt;" />
+      <Button fx:id="btnVoltar" layoutX="51.0" layoutY="517.0" mnemonicParsing="false" onAction="#voltarMusica" text="|&lt;|" />
+      <Button fx:id="btnTocarPausar" layoutX="112.0" layoutY="517.0" mnemonicParsing="false" onAction="#tocarPausar" text="|&gt;">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="30.0" />
+         </font></Button>
+      <Button fx:id="btnAvancar" layoutX="175.0" layoutY="517.0" mnemonicParsing="false" onAction="#avancarMusica" text="|&gt;|" />
       <Text fill="WHITE" layoutX="97.0" layoutY="85.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Musicas" textAlignment="CENTER" wrappingWidth="109.0">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>
       </Text>
-      <Text fill="WHITE" layoutX="578.0" layoutY="332.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Playlists">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="20.0" />
-         </font>
-      </Text>
-      <Label layoutX="510.0" layoutY="497.0" text="Label" textFill="WHITE">
-         <font>
-            <Font name="Arial Rounded MT Bold" size="24.0" />
-         </font>
-      </Label>
       <Label fx:id="lbNome" layoutX="588.0" layoutY="33.0" text="Nome" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="21.0" />
          </font>
       </Label>
       <Label fx:id="lbTipo" layoutX="588.0" layoutY="189.0" text="Tipo" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="21.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbMusica" alignment="CENTER" layoutX="251.0" layoutY="487.0" text="Player" textAlignment="CENTER" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="21.0" />
          </font>
@@ -91,6 +96,16 @@
          </image>
       </ImageView>
       <Label layoutX="358.0" layoutY="67.0" text="Diretorios" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="20.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbTempo" layoutX="508.0" layoutY="553.0" text="00:00:00" textFill="WHITE">
+         <font>
+            <Font name="Arial Rounded MT Bold" size="16.0" />
+         </font>
+      </Label>
+      <Label fx:id="lbPlaylist" layoutX="577.0" layoutY="314.0" text="Playlists" textFill="WHITE">
          <font>
             <Font name="Arial Rounded MT Bold" size="20.0" />
          </font>

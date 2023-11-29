@@ -75,9 +75,9 @@ public class BancoDeDados {
 
 
 	            Usuario usuario;
-	            if (tipo.equals("vip")) {
+	            if (tipo.equals("Vip")) {
 	                usuario = new UsuarioVip();
-	            } else if (tipo.equals("comum")) {
+	            } else if (tipo.equals("Comum")) {
 	                usuario = new UsuarioComum();
 	            } else {
 	                throw new IllegalArgumentException("Tipo desconhecido: " + tipo);

@@ -4,7 +4,9 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.net.URI;
 import java.net.URL;
+import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.ResourceBundle;
@@ -15,9 +17,12 @@ import br.ufrn.imd.modelo.Musica;
 import br.ufrn.imd.modelo.Playlist;
 import br.ufrn.imd.modelo.ServicoAutenticacao;
 import br.ufrn.imd.modelo.Usuario;
+import javafx.animation.KeyFrame;
+import javafx.animation.Timeline;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
@@ -25,10 +30,13 @@ import javafx.scene.Node;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListCell;
 import javafx.scene.control.ListView;
+import javafx.scene.control.Menu;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.ProgressBar;
 import javafx.scene.control.Slider;
@@ -37,11 +45,10 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
-import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 import javafx.util.Callback;
 
 public class TelaPrincipalController implements Initializable {
@@ -49,7 +56,7 @@ public class TelaPrincipalController implements Initializable {
 	private Label musica;
 	
 	@FXML
-	private Button btnVoltar, btnAvancar, btnPausar;
+	private Button btnVoltar, btnAvancar,btnTocarPausar;
 	
 	@FXML
 	private ListView<Playlist> listPlaylists;
@@ -61,6 +68,9 @@ public class TelaPrincipalController implements Initializable {
 	private ListView<Diretorio> listDiretorios;
 	
 	@FXML
+	private Label lbTempo;
+	
+	@FXML
 	private MenuItem sair;
 	
 	@FXML
@@ -68,6 +78,15 @@ public class TelaPrincipalController implements Initializable {
 	
 	@FXML
 	private Label lbTipo;
+	
+	@FXML
+	private Label lbMusica;
+	
+	@FXML
+	private Label lbPlaylist;
+	
+	@FXML
+	private Menu mnPlaylists;
 	
 	@FXML
 	private ImageView imgAvatar;
@@ -82,7 +101,7 @@ public class TelaPrincipalController implements Initializable {
 	private ObservableList<Playlist> playlistsVisiveis;
 	private ObservableList<Diretorio> diretoriosVisiveis;
 	
-	
+	private String musicaSelecionada;
 	private List<Image> images = new ArrayList<>();
     private int imageIndex = 0;
 	private Parent root;
@@ -91,6 +110,7 @@ public class TelaPrincipalController implements Initializable {
     private Stage stage;
 	private Scene scene;
 	private Usuario usuarioLogado;
+	
 	private MediaPlayer mediaPlayer;
 	private Media media;
 	
@@ -99,6 +119,24 @@ public class TelaPrincipalController implements Initializable {
 	    progressao();
 	    lbNome.setText(getUsuarioLogado().getNome());
 	    lbTipo.setText(getUsuarioLogado().getTipo());
+	    sliderMusica.setDisable(true);
+	    lbMusica.setVisible(false);
+	    if(ServicoAutenticacao.getInstance().getUsuarioLogado().getTipo().equals("Comum")) {
+	    	lbPlaylist.setVisible(false);
+	    	listPlaylists.setVisible(false);
+	    	listPlaylists.setDisable(true);
+	    	mnPlaylists.setDisable(true);
+	    	mnPlaylists.setVisible(false);
+	    	
+	    }
+	    else {
+	    	lbPlaylist.setVisible(true);
+	    	listPlaylists.setVisible(true);
+	    	listPlaylists.setDisable(false);
+	    	mnPlaylists.setDisable(false);
+	    	mnPlaylists.setVisible(true);
+	    }
+
 	    try {
 	        for (int i = 1; i <= 7; i++) {
 	            images.add(new Image(new FileInputStream("avatares/avatar" + i + ".png")));
@@ -113,56 +151,61 @@ public class TelaPrincipalController implements Initializable {
 	        imageIndex = (imageIndex + 1) % images.size();
 	        imgAvatar.setImage(images.get(imageIndex));
 	    });
-	    musicasVisiveis = FXCollections.observableArrayList();
 	    
-	    listMusicas.setItems(musicasVisiveis);
-	    listMusicas.setCellFactory((Callback<ListView<Musica>, ListCell<Musica>>) new Callback<ListView<Musica>, ListCell<Musica>>() {
-	        @Override
-	        public ListCell<Musica> call(ListView<Musica> param) {
-	            return new ListCell<Musica>() {
-	                @Override 
-	                protected void updateItem(Musica musica, boolean empty) {
-	                    super.updateItem(musica, empty);
-	                    if (empty || musica == null) {
-	                        setText(null);
-	                    } else {
-	                        // Mostrar apenas o nome da música
-	                        setText(musica.getNome());
-	                    }
-	                }
-	            };
-	        }
-	    });
-	    
-	    diretoriosVisiveis = FXCollections.observableArrayList();
-        diretoriosVisiveis.addAll(BancoDeDiretorios.getInstancia().getDiretorios());
-        // Vincular o ObservableList ao ListView dos diretórios
-        listDiretorios.setItems(diretoriosVisiveis);
-	    
-        listDiretorios.setCellFactory(new Callback<ListView<Diretorio>, ListCell<Diretorio>>() {
-            @Override
-            public ListCell<Diretorio> call(ListView<Diretorio> param) {
-                return new ListCell<Diretorio>() {
-                    @Override
-                    protected void updateItem(Diretorio diretorio, boolean empty) {
-                        super.updateItem(diretorio, empty);
-                        if (empty || diretorio == null) {
-                            setText(null);
-                        } else {
-                        	diretorio.getCaminho();
-                        	int indice = diretorio.getCaminho().lastIndexOf("\\");
-                        	String nome = diretorio.getCaminho().substring(indice + 1);
-                            setText(nome);
-                        }
-                    }
-                };
-            }
-        });
-
-
+	    exibirNomesMusicas();
+	    exibirNomesDiretorios();
 
 	}
-
+	
+	private void exibirNomesMusicas() {
+		  musicasVisiveis = FXCollections.observableArrayList();
+		    
+		    listMusicas.setItems(musicasVisiveis);
+		    listMusicas.setCellFactory((Callback<ListView<Musica>, ListCell<Musica>>) new Callback<ListView<Musica>, ListCell<Musica>>() {
+		        @Override
+		        public ListCell<Musica> call(ListView<Musica> param) {
+		            return new ListCell<Musica>() {
+		                @Override 
+		                protected void updateItem(Musica musica, boolean empty) {
+		                    super.updateItem(musica, empty);
+		                    if (empty || musica == null) {
+		                        setText(null);
+		                    } else {
+		                        // Mostrar apenas o nome da música
+		                        setText(musica.getNome());
+		                    }
+		                }
+		            };
+		        }
+		    });
+	}
+	
+	private void exibirNomesDiretorios() {
+		  diretoriosVisiveis = FXCollections.observableArrayList();
+	        diretoriosVisiveis.addAll(BancoDeDiretorios.getInstancia().getDiretorios());
+	        // Vincular o ObservableList ao ListView dos diretórios
+	        listDiretorios.setItems(diretoriosVisiveis);
+		    
+	        listDiretorios.setCellFactory(new Callback<ListView<Diretorio>, ListCell<Diretorio>>() {
+	            @Override
+	            public ListCell<Diretorio> call(ListView<Diretorio> param) {
+	                return new ListCell<Diretorio>() {
+	                    @Override
+	                    protected void updateItem(Diretorio diretorio, boolean empty) {
+	                        super.updateItem(diretorio, empty);
+	                        if (empty || diretorio == null) {
+	                            setText(null);
+	                        } else {
+	                        	diretorio.getCaminho();
+	                        	int indice = diretorio.getCaminho().lastIndexOf("\\");
+	                        	String nome = diretorio.getCaminho().substring(indice + 1);
+	                            setText(nome);
+	                        }
+	                    }
+	                };
+	            }
+	        });
+	}
 	
 	private void progressao() {
 		sliderMusica.valueProperty().addListener((obs, oldValue, newValue)->{
@@ -175,22 +218,140 @@ public class TelaPrincipalController implements Initializable {
 		return servicoAutenticacao.getUsuarioLogado();
 	}
 
-	public void tocarMusica() {
-		mediaPlayer.play();
+	@FXML
+	private void pausarTocar(MouseEvent event) {
+		tocarMusica(listMusicas.getSelectionModel().getSelectedItem());
 	}
 	
-	public void pausarMusica() {
-		mediaPlayer.pause();
+	private void tocarMusica(Musica musica) {
+		sliderMusica.setDisable(false);
+		lbMusica.setVisible(true);
+	    if (musica == null) {
+	        return;
+	    }
+
+	    if (musica.getNome().equals(musicaSelecionada)) {
+	        mediaPlayer.stop();
+	        mediaPlayer.play();
+	    } else {
+	        if (mediaPlayer != null) {
+	            mediaPlayer.stop();
+	        }
+	        File f = new File(musica.getCaminho());
+	        URI u = f.toURI();
+	        Media media = new Media(u.toString());
+	        mediaPlayer = new MediaPlayer(media);
+	        mediaPlayer.setOnEndOfMedia(() -> {
+	            int index = listMusicas.getSelectionModel().getSelectedIndex();
+	            if (index < listMusicas.getItems().size() - 1) {
+	                listMusicas.getSelectionModel().select(index + 1);
+	            } else {
+	                listMusicas.getSelectionModel().select(0); // volta para a primeira música da lista
+	            }
+	            tocarMusica(listMusicas.getSelectionModel().getSelectedItem());
+	        });
+	        mediaPlayer.play();
+	        startUpdatingCurrentTime();
+	        startUpdatingTimeSlider();
+	        btnTocarPausar.setText("| |");
+	        tocando = true;
+	        musicaSelecionada = musica.getNome();
+	    }
+	    lbMusica.setText(musica.getNome());
 	}
-	
-	public void voltarMusica() {
+
+
+
+	private boolean tocando = false;
+	public void tocarPausar(ActionEvent event) {
+		if(mediaPlayer == null) {
+			return;
+		}
+		if(tocando) {
+			mediaPlayer.pause();
+			btnTocarPausar.setText("|>");
+			
+		}
+		else {
+			mediaPlayer.play();
+			btnTocarPausar.setText("| |");
+		}
+		tocando = !tocando;
 		
 	}
 	
-	public void avancarMusica() {
-		
+	private int currentSongIndex = 0;
+	@FXML
+	private void voltarMusica(ActionEvent event) {
+	    if (mediaPlayer == null) {
+	        return;
+	    }
+
+	    Duration currentTime = mediaPlayer.getCurrentTime();
+	    if (currentTime.toSeconds() > 5) {
+	        mediaPlayer.seek(Duration.ZERO);
+	    } else {
+	        int index = listMusicas.getSelectionModel().getSelectedIndex();
+	        if (index == 0) {
+	            currentSongIndex = listMusicas.getItems().size() - 1; // seleciona a última música da lista
+	        } else {
+	            currentSongIndex = index - 1;
+	        }
+	        listMusicas.getSelectionModel().select(currentSongIndex);
+	        tocarMusica(listMusicas.getItems().get(currentSongIndex));
+	    }
 	}
 	
+	@FXML
+	private void avancarMusica(ActionEvent event) {
+	    if (mediaPlayer == null) {
+	        return;
+	    }
+
+	    int index = listMusicas.getSelectionModel().getSelectedIndex();
+	    if (index == listMusicas.getItems().size() - 1) {
+	        currentSongIndex = 0; // seleciona a primeira música da lista
+	    } else {
+	        currentSongIndex = index + 1;
+	    }
+	    listMusicas.getSelectionModel().select(currentSongIndex);
+	    tocarMusica(listMusicas.getItems().get(currentSongIndex));
+	}
+
+	
+	public void startUpdatingCurrentTime() {
+        Timeline timeline = new Timeline(new KeyFrame(Duration.seconds(1), new EventHandler<ActionEvent>() {
+            public void handle(ActionEvent event) {
+                Duration currentTime = mediaPlayer.getCurrentTime();
+                String formattedTime = String.format("%02d:%02d:%02d",
+                        (int) currentTime.toHours(),
+                        (int) currentTime.toMinutes() % 60,
+                        (int) currentTime.toSeconds() % 60);
+                lbTempo.setText(formattedTime);
+            }
+        }));
+        timeline.setCycleCount(Timeline.INDEFINITE);
+        timeline.play();
+    }
+	
+	public void startUpdatingTimeSlider() {
+        mediaPlayer.setOnReady(() -> {
+            Duration duration = mediaPlayer.getMedia().getDuration();
+            sliderMusica.setMax(duration.toSeconds());
+        });
+
+        sliderMusica.valueProperty().addListener((observable, oldValue, newValue) -> {
+            if (sliderMusica.isValueChanging()) {
+                mediaPlayer.seek(Duration.seconds(newValue.doubleValue()));
+            }
+        });
+
+        mediaPlayer.currentTimeProperty().addListener((observable, oldValue, newValue) -> {
+            if (!sliderMusica.isValueChanging()) {
+                sliderMusica.setValue(newValue.toSeconds());
+            }
+        });
+	}
 	
 	@FXML
     private MenuItem mnItemFileAddFile;
@@ -217,6 +378,7 @@ public class TelaPrincipalController implements Initializable {
     @FXML
     private MenuItem mnItemFileAddDirectory;
     
+    @FXML
     public void abrirTelaAddDirectory(ActionEvent event) {
         DirectoryChooser directoryChooser = new DirectoryChooser();
         directoryChooser.setTitle("Escolha um diretório");
@@ -228,13 +390,20 @@ public class TelaPrincipalController implements Initializable {
             // Carregar as músicas do diretório
             diretorio.carregarMusicas();
             // Adicionar o diretório ao usuário logado
-            BancoDeDiretorios.getInstancia().adicionarDiretorio(diretorio);
-            // Adicionar as novas músicas ao ObservableList, evitando duplicação
-            // Adicionar o novo diretório ao ObservableList dos diretórios
-            diretoriosVisiveis.add(diretorio);
+            if(BancoDeDiretorios.getInstancia().verificarDiretorio(diretorio.getCaminho())== null){
+            	BancoDeDiretorios.getInstancia().adicionarDiretorio(diretorio);
+            	diretoriosVisiveis.add(diretorio);
+            }
+            else {
+            	Alert alert = new Alert(AlertType.INFORMATION);
+    	    	alert.initStyle(StageStyle.UNDECORATED);
+    	    	alert.setHeaderText("Diretorio já existe");
+    	    	alert.showAndWait();
+            }
         }
     }
     
+    @FXML
     public void exibirMusicas(MouseEvent event) {
     	Diretorio diretorio = listDiretorios.getSelectionModel().getSelectedItem();
         if (diretorio != null) {
@@ -268,6 +437,7 @@ public class TelaPrincipalController implements Initializable {
 	    alert.setHeaderText("Você tem certeza que deseja sair?");
 	    alert.setContentText("Clique em OK para confirmar, ou Cancelar para voltar.");
 	    if (alert.showAndWait().get() == ButtonType.OK){
+	    	mediaPlayer.stop();
 	        FXMLLoader loader = new FXMLLoader(getClass().getResource("/br/ufrn/imd/visao/TelaLogin.fxml"));	
 	        root = loader.load();	
 
