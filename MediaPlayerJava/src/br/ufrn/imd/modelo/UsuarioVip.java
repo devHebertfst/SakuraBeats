@@ -7,7 +7,7 @@ public class UsuarioVip extends Usuario {
 	private Map<String, Playlist> playlists;
 	
 	public UsuarioVip() {
-		tipo = "vip";
+		tipo = "Vip";
 		playlists = new HashMap<>();
 	}
 	

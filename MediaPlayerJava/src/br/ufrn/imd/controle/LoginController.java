@@ -90,7 +90,6 @@ public class LoginController {
 	    ServicoAutenticacao servicoAutenticacao = ServicoAutenticacao.getInstance();
 	    
 	    if(servicoAutenticacao.realizarLogin(nome, senha)) {
-	    	System.out.print(servicoAutenticacao.getUsuarioLogado().getNome());
 	    	TelaPrincipal(event);
 	    }
 	    
