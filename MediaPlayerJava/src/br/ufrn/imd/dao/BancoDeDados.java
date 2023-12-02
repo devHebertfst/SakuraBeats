@@ -7,7 +7,9 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.UUID;
 
+import br.ufrn.imd.modelo.Diretorio;
 import br.ufrn.imd.modelo.Usuario;
 import br.ufrn.imd.modelo.UsuarioComum;
 import br.ufrn.imd.modelo.UsuarioVip;
@@ -50,9 +52,12 @@ public class BancoDeDados {
                 writer.println("Nome: " + usuario.getNome());
                 writer.println("Senha: " + usuario.getSenha());
                 writer.println("Tipo: " + usuario.getTipo());
-                writer.println("Diretorio: " + usuario.getDiretorio());
-                writer.println("Avatar: " + usuario.getAvatar());
-                writer.println();
+                writer.println("Diretorio: [");
+					for(Diretorio diretorio : usuario.getDiretorios()) {
+						writer.println( "	" + diretorio.getCaminho());
+					}
+				writer.println("]");
+				writer.println();
             }
         } catch (IOException e) {
             System.out.println("Erro ao salvar usuários em arquivo: " + e.getMessage());
@@ -66,15 +71,13 @@ public class BancoDeDados {
 	            String nomeLine = scanner.nextLine();
 	            String senhaLine = scanner.nextLine();
 	            String tipoLine = scanner.nextLine();
-	            String diretorioLine = scanner.nextLine();
-	            String avatarLine = scanner.nextLine();
+				String diretorioLine = scanner.nextLine();
 
-	            if (!idLine.startsWith("ID: ") || !nomeLine.startsWith("Nome: ") || !senhaLine.startsWith("Senha: ") || !tipoLine.startsWith("Tipo: ") || !diretorioLine.startsWith("Diretorio: ") || !avatarLine.startsWith("Avatar: "))  {
+	            if (!idLine.startsWith("ID: ") || !nomeLine.startsWith("Nome: ") || !senhaLine.startsWith("Senha: ") || !tipoLine.startsWith("Tipo: ") || !diretorioLine.startsWith("Diretorio: ")) {
 	                throw new IllegalArgumentException("Formato de arquivo inválido");
 	            }
 
 	            String tipo = tipoLine.split(": ")[1];
-
 
 	            Usuario usuario;
 	            if (tipo.equals("Vip")) {
@@ -89,8 +92,24 @@ public class BancoDeDados {
 	            usuario.setNome(nomeLine.split(": ")[1]);
 	            usuario.setSenha(senhaLine.split(": ")[1]);
 	            usuario.setTipo(tipo);
-	            usuario.setDiretorio(diretorioLine.split(": ")[1]);
-	            usuario.setAvatar(avatarLine.split(": ")[1]);
+
+				while(!diretorioLine.equals("]")) {
+					System.out.println(diretorioLine);
+					diretorioLine = scanner.nextLine();
+					Diretorio diretorio = BancoDeDiretorios.getInstancia().getDiretorio(diretorioLine);
+
+					if(diretorio != null) {
+						usuario.addDiretorio(diretorio);
+					}
+				}
+	            /*if(!usuario.getDiretorio().isEmpty()) {
+					diretorioLine;
+					String[] diretoriosCaminhos = diretorioLine.split(": ")[1].split(";");
+					for(String diretorioCaminho : diretoriosCaminhos) {
+						Diretorio diretorio = BancoDeDiretorios.getInstancia().getDiretorio(diretorioCaminho);
+						usuario.addDiretorio(diretorio);
+					}
+				}*/
 
 	            // Adicione o usuário ao banco de dados
 	            adicionarUsuario(usuario);

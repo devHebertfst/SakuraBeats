@@ -18,10 +18,6 @@ public class Musica {
 	public String getId() {
 		return id;
 	}
-	
-	public void setId(String id) {
-		this.id = id;
-	}
 	//N�o permitiremos que o ID seja alterado. Esse ID deve ser gerado pelo sistema.
 	/*public void setId(String id) {
 		this.id = id;

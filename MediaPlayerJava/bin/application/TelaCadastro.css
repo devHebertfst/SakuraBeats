@@ -3,6 +3,7 @@
     -fx-background-size:cover;
 }
 
+/* Estilo do botão */
 .button {
   -fx-background-color: white;
   -fx-text-fill: black;
@@ -10,6 +11,7 @@
   -fx-font-weight: bold;
 }
 
+/* Efeito de brilho flutuante */
 .button:hover {
   -fx-background-color: #ccfcff;
   -fx-text-fill: black;

@@ -1,17 +1,22 @@
 package br.ufrn.imd.modelo;
 
-public abstract class Usuario {
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
+
+public abstract class Usuario implements Serializable {
 	protected Integer id;
 	protected String nome;
 	protected String senha;
 	protected String tipo;
-	protected String diretorio;
-	protected String avatar;
-	
+	protected List<Diretorio> diretorios;
+
 	public Usuario() {
-		avatar = "0";
+		this.diretorios = new ArrayList<>();
+		this.senha = "";
 	}
-	
+
 	public Integer getId() {
 		return id;
 	}
@@ -36,17 +41,10 @@ public abstract class Usuario {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public String getDiretorio() {
-		return diretorio;
+	public List<Diretorio> getDiretorios() {
+		return this.diretorios;
 	}
-	public void setDiretorio(String diretorio) {
-		this.diretorio = diretorio;
+	public void addDiretorio(Diretorio diretorio) {
+		this.diretorios.add(diretorio);
 	}
-	public String getAvatar() {
-		return avatar;
-	}
-	public void setAvatar(String avatar) {
-		this.avatar = avatar;
-	}
-	
 }

@@ -2,41 +2,13 @@ ID: 1
 Nome: a
 Senha: 12
 Tipo: Comum
-Diretorio: null
-Avatar: 6
+Diretorio: [
+]
 
 ID: 2
 Nome: b
-Senha: 12
+Senha: 11
 Tipo: Comum
-Diretorio: null
-Avatar: 6
-
-ID: 3
-Nome: c
-Senha: 12
-Tipo: Vip
-Diretorio: null
-Avatar: 1
-
-ID: 4
-Nome: d
-Senha: 12
-Tipo: Comum
-Diretorio: null
-Avatar: 4
-
-ID: 5
-Nome: g
-Senha: 12
-Tipo: Vip
-Diretorio: null
-Avatar: 6
-
-ID: 6
-Nome: h
-Senha: 12
-Tipo: Vip
-Diretorio: null
-Avatar: 5
+Diretorio: [
+]
 
