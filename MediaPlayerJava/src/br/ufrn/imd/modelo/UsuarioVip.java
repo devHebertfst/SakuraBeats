@@ -24,6 +24,10 @@ public class UsuarioVip extends Usuario {
 		}
 	}
 	
+	public boolean playlistExiste(String play) {
+		return playlists.containsKey(play);
+	}
+	
 	public Playlist buscaPlaylist(String nomePlaylist) {
 	    return playlists.get(nomePlaylist);
 	}

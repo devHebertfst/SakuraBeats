@@ -1,42 +1,18 @@
 ID: 1
 Nome: a
 Senha: 12
-Tipo: Comum
-Diretorio: null
+Tipo: Vip
+Avatar: 7
+
+ID: 3
+Nome: Mateus
+Senha: 12345
+Tipo: Vip
+Avatar: 5
 
 ID: 2
 Nome: b
-Senha: 11
-Tipo: Vip
-Diretorio: null
-
-ID: 3
-Nome: c
 Senha: 12
 Tipo: Comum
-Diretorio: null
-
-ID: 4
-Nome: pedro
-Senha: 12345
-Tipo: Comum
-Diretorio: null
-
-ID: 5
-Nome: hebert
-Senha: 12345
-Tipo: Vip
-Diretorio: null
-
-ID: 6
-Nome: julio
-Senha: 4321
-Tipo: Comum
-Diretorio: null
-
-ID: 7
-Nome: mateus
-Senha: 54gs1543
-Tipo: Vip
-Diretorio: null
+Avatar: 3
 

@@ -1,11 +1,20 @@
 package br.ufrn.imd.modelo;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public abstract class Usuario {
 	protected Integer id;
 	protected String nome;
 	protected String senha;
 	protected String tipo;
-	protected String diretorio;
+	protected String avatar;
+	protected List<Diretorio> diretorios;
+	
+	public Usuario() {
+		this.diretorios = new ArrayList<>();
+		avatar = "0";
+	}
 	
 	public Integer getId() {
 		return id;
@@ -31,11 +40,26 @@ public abstract class Usuario {
 	public void setTipo(String tipo) {
 		this.tipo = tipo;
 	}
-	public String getDiretorio() {
-		return diretorio;
+	public List<Diretorio> getDiretorios() {
+		return this.diretorios;
 	}
-	public void setDiretorio(String diretorio) {
-		this.diretorio = diretorio;
+	public void addDiretorio(Diretorio diretorio) {
+		this.diretorios.add(diretorio);
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	
+	public boolean diretorioExiste(String diretorio) {
+		for(Diretorio d: diretorios) {
+			if(d.getCaminho().equals(diretorio)) {
+				return true;
+			}
+		}
+		return false;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 }
