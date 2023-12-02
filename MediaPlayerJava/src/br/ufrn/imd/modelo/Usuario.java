@@ -6,6 +6,11 @@ public abstract class Usuario {
 	protected String senha;
 	protected String tipo;
 	protected String diretorio;
+	protected String avatar;
+	
+	public Usuario() {
+		avatar = "0";
+	}
 	
 	public Integer getId() {
 		return id;
@@ -36,6 +41,12 @@ public abstract class Usuario {
 	}
 	public void setDiretorio(String diretorio) {
 		this.diretorio = diretorio;
+	}
+	public String getAvatar() {
+		return avatar;
+	}
+	public void setAvatar(String avatar) {
+		this.avatar = avatar;
 	}
 	
 }

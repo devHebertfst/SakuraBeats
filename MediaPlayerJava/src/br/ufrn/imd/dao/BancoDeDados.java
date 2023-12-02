@@ -51,6 +51,7 @@ public class BancoDeDados {
                 writer.println("Senha: " + usuario.getSenha());
                 writer.println("Tipo: " + usuario.getTipo());
                 writer.println("Diretorio: " + usuario.getDiretorio());
+                writer.println("Avatar: " + usuario.getAvatar());
                 writer.println();
             }
         } catch (IOException e) {
@@ -66,8 +67,9 @@ public class BancoDeDados {
 	            String senhaLine = scanner.nextLine();
 	            String tipoLine = scanner.nextLine();
 	            String diretorioLine = scanner.nextLine();
+	            String avatarLine = scanner.nextLine();
 
-	            if (!idLine.startsWith("ID: ") || !nomeLine.startsWith("Nome: ") || !senhaLine.startsWith("Senha: ") || !tipoLine.startsWith("Tipo: ") || !diretorioLine.startsWith("Diretorio: ")) {
+	            if (!idLine.startsWith("ID: ") || !nomeLine.startsWith("Nome: ") || !senhaLine.startsWith("Senha: ") || !tipoLine.startsWith("Tipo: ") || !diretorioLine.startsWith("Diretorio: ") || !avatarLine.startsWith("Avatar: "))  {
 	                throw new IllegalArgumentException("Formato de arquivo inválido");
 	            }
 
@@ -75,9 +77,9 @@ public class BancoDeDados {
 
 
 	            Usuario usuario;
-	            if (tipo.equals("vip")) {
+	            if (tipo.equals("Vip")) {
 	                usuario = new UsuarioVip();
-	            } else if (tipo.equals("comum")) {
+	            } else if (tipo.equals("Comum")) {
 	                usuario = new UsuarioComum();
 	            } else {
 	                throw new IllegalArgumentException("Tipo desconhecido: " + tipo);
@@ -88,6 +90,7 @@ public class BancoDeDados {
 	            usuario.setSenha(senhaLine.split(": ")[1]);
 	            usuario.setTipo(tipo);
 	            usuario.setDiretorio(diretorioLine.split(": ")[1]);
+	            usuario.setAvatar(avatarLine.split(": ")[1]);
 
 	            // Adicione o usuário ao banco de dados
 	            adicionarUsuario(usuario);
