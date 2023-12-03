@@ -1,14 +1,15 @@
 package application;
 	
 import br.ufrn.imd.dao.BancoDeDados;
+import br.ufrn.imd.dao.BancoDeDiretorios;
+import br.ufrn.imd.dao.BancoDeMusicas;
+import br.ufrn.imd.dao.BancoDePlaylists;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
-
-
 
 public class Main extends Application {
 	private double xOffset = 0;
@@ -30,8 +31,7 @@ public class Main extends Application {
 			stage.setResizable(false);
 			stage.setScene(scene);
 			stage.show();
-			
-			
+
 		} catch(Exception e) {
 			e.printStackTrace();
 		}
@@ -40,6 +40,9 @@ public class Main extends Application {
 	
 	public static void main(String[] args) {
 		BancoDeDados.getInstance().carregarUsuariosDeArquivo();
+		BancoDeDiretorios.getInstancia().carregarDiretoriosDeArquivo();
+		BancoDeMusicas.getInstance().carregarMusicasDeArquivo();
+		BancoDePlaylists.getInstance().carregarPlaylistDeArquivo();
 		launch(args);
 	}
 }

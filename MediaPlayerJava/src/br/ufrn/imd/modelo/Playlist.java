@@ -1,29 +1,32 @@
 package br.ufrn.imd.modelo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 public class Playlist {
-	private Integer id;
+	private UUID id;
 	private String nome;
-	private Map<String, Musica> musicas;
+	private List<Musica> musicas;
 	private Integer idUsuario;
 	
 	public Playlist(String nome) {
+		UUID uuid = UUID.randomUUID();
+		this.id = uuid;
 		this.nome = nome;
-		musicas = new HashMap<>();
+		this.musicas = new ArrayList<>();
 	}
 
 
-	public Integer getId() {
+	public UUID getId() {
 		return id;
 	}
 
-
-	public void setId(Integer id) {
+	public void setId(UUID id) {
 		this.id = id;
 	}
-
 
 	public String getNome() {
 		return nome;
@@ -33,13 +36,13 @@ public class Playlist {
 		this.nome = nome;
 	}
 
-	public Map<String, Musica> getMusicas() {
-		return musicas;
-	}
+	public List<Musica> getMusicas() {
+        return musicas;
+    }
 
-	public void setMusicas(Map<String, Musica> musicas) {
-		this.musicas = musicas;
-	}
+    public void setMusicas(List<Musica> musicas) {
+        this.musicas = musicas;
+    }
 
 	public Integer getIdUsuario() {
 		return idUsuario;
@@ -50,10 +53,20 @@ public class Playlist {
 	}
 	
 	public void addMusica(Musica musica) {
-		musicas.put(musica.getNome(), musica);
+		musicas.add(musica);
 	}
 	
 	public void removerMusica(Musica musica) {
-		musicas.remove(musica.getNome());
+		musicas.remove(musica);
+	}
+	
+	public boolean musicaExiste(String musica) {
+		for(Musica m: musicas) {
+			if(m.getNome().equals(musica)) {
+				System.out.println("cheguei aqui!");
+				return true;
+			}
+		}
+		return false;
 	}
 }

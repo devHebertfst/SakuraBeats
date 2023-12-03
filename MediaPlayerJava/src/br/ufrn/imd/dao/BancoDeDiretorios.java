@@ -1,26 +1,26 @@
 package br.ufrn.imd.dao;
 
 import br.ufrn.imd.modelo.Diretorio;
-import br.ufrn.imd.modelo.ServicoAutenticacao;
+import br.ufrn.imd.controle.ServicoAutenticacao;
+import br.ufrn.imd.modelo.Musica;
 import br.ufrn.imd.modelo.Usuario;
 
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.*;
 
 public class BancoDeDiretorios {
-    private static BancoDeDiretorios instancia; // a única instância da classe
-    private Map<String, Diretorio> diretorios; // a lista de diretórios
-    private String arquivo; // o nome do arquivo que salva os diretórios
+    private static BancoDeDiretorios instancia;
+    private Map<String, Diretorio> diretorios;
+    private String arquivo;
 
     private BancoDeDiretorios() {
         diretorios = new HashMap<String, Diretorio>();
         arquivo = "diretorios.txt";
-        carregarDiretorios();
     }
 
-    // este método retorna a única instância da classe
     public static BancoDeDiretorios getInstancia() {
         if (instancia == null) {
             instancia = new BancoDeDiretorios();
@@ -36,69 +36,66 @@ public class BancoDeDiretorios {
         return this.diretorios.get(caminho);
     }
 
-    // este método adiciona um diretório à lista de diretórios e salva no arquivo
     public void adicionarDiretorio(Diretorio diretorio) {
         diretorios.put(diretorio.getCaminho(), diretorio);
-        salvarDiretorios();
-
         Usuario usuarioLogado = ServicoAutenticacao.getInstance().getUsuarioLogado();
         usuarioLogado.addDiretorio(diretorio);
+        salvarDiretoriosEmArquivo();
     }
 
-    // este método remove um diretório da lista de diretórios e salva no arquivo
     public void removerDiretorio(Diretorio diretorio) {
         diretorios.remove(diretorio);
 
-        salvarDiretorios();
+        salvarDiretoriosEmArquivo();
     }
     
     public Diretorio verificarDiretorio(String caminho) {
         return diretorios.get(caminho);
-        /* Percorrer a lista de diretórios
-        for (Diretorio diretorio : diretorios) {
-            // Se o caminho do diretório for igual ao parâmetro, retornar o diretório
-            if (diretorio.getCaminho().equals(caminho)) {
-                return diretorio;
+    }
+    public void salvarDiretoriosEmArquivo() {
+        try (PrintWriter writer = new PrintWriter("dados/diretorios.txt")) {
+            for (Usuario usuario : BancoDeDados.getInstance().getUsuarios().values()) {
+                if (!usuario.getDiretorios().isEmpty()) { // Verifica se o usuário tem algum diretório
+                    writer.println("ID: " + usuario.getId());
+                    for(Diretorio diretorio : usuario.getDiretorios()) {
+                        writer.println(diretorio.getCaminho());
+                        for(Musica musica : diretorio.getMusicas()) {
+                            BancoDeMusicas.getInstance().addMusica(musica);
+                        }
+                    }
+                    writer.println();
+                }
             }
+        } catch (IOException e) {
+            System.out.println("Erro ao salvar diretórios em arquivo: " + e.getMessage());
         }
-        // Se nenhum diretório for encontrado, retornar null
-        return null;*/
     }
 
-
-
-    // este método lê os diretórios do arquivo e cria objetos Diretorio para cada um
-    public void carregarDiretorios() {
-        try {
-        	Scanner scanner = new Scanner(new File("dados/diretorios.txt"));
-            while (scanner.hasNextLine()) {
-                String id = scanner.nextLine();
-                String caminho = scanner.nextLine();
-                Diretorio diretorio = new Diretorio(caminho);
-                diretorios.put(diretorio.getCaminho(), diretorio);
+    public void carregarDiretoriosDeArquivo() {
+        try (Scanner scanner = new Scanner(new File("dados/diretorios.txt"))) {
+            while (scanner.hasNext()) {
+                String idLine = scanner.nextLine();
+                int id = Integer.parseInt(idLine.split(": ")[1]);
+                Usuario usuario = BancoDeDados.getInstance().getUsuarioPorId(id);
+                if (usuario != null) {
+                    String diretorioLine = scanner.nextLine();
+                    while(!diretorioLine.isEmpty()) {
+                        Diretorio diretorio = new Diretorio(diretorioLine);
+                        usuario.addDiretorio(diretorio);
+                        diretorios.put(diretorio.getCaminho(), diretorio);
+                        if (scanner.hasNextLine()) {
+                            diretorioLine = scanner.nextLine();
+                        } else {
+                            break;
+                        }
+                    }
+                } else {
+                    System.out.println("Usuário com ID " + id + " não encontrado.");
+                }
             }
-            scanner.close();
         } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            System.out.println("Erro ao carregar diretórios de arquivo: " + e.getMessage());
         }
     }
 
-    // este método salva os diretórios no arquivo
-    public void salvarDiretorios() {
-        try {
-            PrintWriter writer = new PrintWriter(new File("dados/diretorios.txt"));
-            diretorios.forEach((key, value) -> {
-                writer.println(value.getId());
-                writer.println(value.getCaminho());
-            });
-            /*for (Diretorio diretorio : diretorios) {
-                writer.println(diretorio.getId());
-                writer.println(diretorio.getCaminho());
-            }*/
-            writer.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        }
     }
-}
-

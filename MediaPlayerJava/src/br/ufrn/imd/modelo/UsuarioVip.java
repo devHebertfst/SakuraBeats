@@ -1,6 +1,8 @@
 package br.ufrn.imd.modelo;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class UsuarioVip extends Usuario {
@@ -24,8 +26,19 @@ public class UsuarioVip extends Usuario {
 		}
 	}
 	
+	public boolean playlistExiste(String play) {
+		return playlists.containsKey(play);
+	}
+	
 	public Playlist buscaPlaylist(String nomePlaylist) {
 	    return playlists.get(nomePlaylist);
 	}
-	
+
+	public void adicionarPlaylist(Playlist playlist) {
+		this.playlists.put(playlist.getNome(), playlist);
+	}
+
+	public List<Playlist> getPlaylists() {
+		return new ArrayList<Playlist>(playlists.values());
+	}
 }

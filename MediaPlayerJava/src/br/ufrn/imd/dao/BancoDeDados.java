@@ -7,7 +7,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.UUID;
 
 import br.ufrn.imd.modelo.Diretorio;
 import br.ufrn.imd.modelo.Usuario;
@@ -52,12 +51,8 @@ public class BancoDeDados {
                 writer.println("Nome: " + usuario.getNome());
                 writer.println("Senha: " + usuario.getSenha());
                 writer.println("Tipo: " + usuario.getTipo());
-                writer.println("Diretorio: [");
-					for(Diretorio diretorio : usuario.getDiretorios()) {
-						writer.println( "	" + diretorio.getCaminho());
-					}
-				writer.println("]");
-				writer.println();
+                writer.println("Avatar: " + usuario.getAvatar());
+                writer.println();
             }
         } catch (IOException e) {
             System.out.println("Erro ao salvar usuários em arquivo: " + e.getMessage());
@@ -71,9 +66,9 @@ public class BancoDeDados {
 	            String nomeLine = scanner.nextLine();
 	            String senhaLine = scanner.nextLine();
 	            String tipoLine = scanner.nextLine();
-				String diretorioLine = scanner.nextLine();
-
-	            if (!idLine.startsWith("ID: ") || !nomeLine.startsWith("Nome: ") || !senhaLine.startsWith("Senha: ") || !tipoLine.startsWith("Tipo: ") || !diretorioLine.startsWith("Diretorio: ")) {
+	            String avatarLine = scanner.nextLine();
+	            
+	            if (!idLine.startsWith("ID: ") || !nomeLine.startsWith("Nome: ") || !senhaLine.startsWith("Senha: ") || !tipoLine.startsWith("Tipo: ") || !avatarLine.startsWith("Avatar: "))  {
 	                throw new IllegalArgumentException("Formato de arquivo inválido");
 	            }
 
@@ -92,24 +87,7 @@ public class BancoDeDados {
 	            usuario.setNome(nomeLine.split(": ")[1]);
 	            usuario.setSenha(senhaLine.split(": ")[1]);
 	            usuario.setTipo(tipo);
-
-				while(!diretorioLine.equals("]")) {
-					System.out.println(diretorioLine);
-					diretorioLine = scanner.nextLine();
-					Diretorio diretorio = BancoDeDiretorios.getInstancia().getDiretorio(diretorioLine);
-
-					if(diretorio != null) {
-						usuario.addDiretorio(diretorio);
-					}
-				}
-	            /*if(!usuario.getDiretorio().isEmpty()) {
-					diretorioLine;
-					String[] diretoriosCaminhos = diretorioLine.split(": ")[1].split(";");
-					for(String diretorioCaminho : diretoriosCaminhos) {
-						Diretorio diretorio = BancoDeDiretorios.getInstancia().getDiretorio(diretorioCaminho);
-						usuario.addDiretorio(diretorio);
-					}
-				}*/
+	            usuario.setAvatar(avatarLine.split(": ")[1]);
 
 	            // Adicione o usuário ao banco de dados
 	            adicionarUsuario(usuario);
@@ -123,6 +101,37 @@ public class BancoDeDados {
 	        System.out.println("Erro ao carregar usuários de arquivo: " + e.getMessage());
 	    }
 	}
+
+	public Map<String, Usuario> getUsuarios() {
+		return usuarios;
+	}
+	
+	public Usuario getUsuarioPorId(int id) {
+	    for (Usuario usuario : usuarios.values()) {
+	        if (usuario.getId() == id) {
+	            return usuario;
+	        }
+	    }
+	    return null;
+	}
+
+
+	public void setUsuarios(Map<String, Usuario> usuarios) {
+		this.usuarios = usuarios;
+	}
+
+	public int getIdCounter() {
+		return idCounter;
+	}
+
+	public void setIdCounter(int idCounter) {
+		this.idCounter = idCounter;
+	}
+
+	public static void setInstance(BancoDeDados instance) {
+		BancoDeDados.instance = instance;
+	}
+
 
 
 

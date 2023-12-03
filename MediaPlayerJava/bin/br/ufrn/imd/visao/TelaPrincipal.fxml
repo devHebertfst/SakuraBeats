@@ -31,26 +31,23 @@
           </Menu>
             <Menu fx:id="mnPlaylists" mnemonicParsing="false" text="Playlists">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#abrirTelaAddFile" text="Adicionar Playlist" />
-                  <MenuItem mnemonicParsing="false" text="Adicionar Musica" />
+                  <MenuItem mnemonicParsing="false" onAction="#criarPlaylist" text="Criar Playlist" />
                   <MenuItem mnemonicParsing="false" text="Remover Musica" />
                   <MenuItem mnemonicParsing="false" text="Apagar Playlist" />
                </items>
             </Menu>
             <Menu mnemonicParsing="false" text="Ajuda">
                <items>
-                  <MenuItem mnemonicParsing="false" onAction="#abrirTelaAddFile" text="Adicionar Playlist" />
-                  <MenuItem mnemonicParsing="false" text="Adicionar Musica" />
-                  <MenuItem mnemonicParsing="false" text="Remover Musica" />
-                  <MenuItem mnemonicParsing="false" text="Informacoes" />
+                  <MenuItem mnemonicParsing="false" text="Adicionar Playlist" />
+                  <MenuItem mnemonicParsing="false" text="Readme" />
                </items>
             </Menu>
         </menus>
       </MenuBar>
       <Button fx:id="btnSair" layoutX="745.0" layoutY="43.0" mnemonicParsing="false" onAction="#logout" text="X" />
-      <ListView fx:id="listMusicas" layoutX="51.0" layoutY="94.0" onMouseClicked="#pausarTocar" prefHeight="243.0" prefWidth="200.0" />
+      <ListView fx:id="listMusicas" layoutX="51.0" layoutY="94.0" onDragDetected="#selecionarMusica" onMouseClicked="#pausarTocar" prefHeight="243.0" prefWidth="200.0" />
       <ListView fx:id="listDiretorios" layoutX="307.0" layoutY="94.0" onMouseClicked="#exibirMusicas" prefHeight="243.0" prefWidth="200.0" />
-      <ListView fx:id="listPlaylists" layoutX="554.0" layoutY="337.0" prefHeight="137.0" prefWidth="129.0" />
+      <ListView fx:id="listPlaylists" layoutX="554.0" layoutY="337.0" onDragDropped="#receberMusica" onDragEntered="#hoverPlaylist" onDragOver="#arrastarMusica" onMouseClicked="#exibirMusicas" prefHeight="137.0" prefWidth="129.0" />
       <Rectangle arcHeight="50.0" arcWidth="50.0" fill="#07334db2" height="104.0" layoutX="14.0" layoutY="482.0" stroke="TRANSPARENT" strokeType="INSIDE" width="774.0" />
       <Button fx:id="btnVoltar" layoutX="51.0" layoutY="517.0" mnemonicParsing="false" onAction="#voltarMusica" text="|&lt;|" />
       <Button fx:id="btnTocarPausar" layoutX="112.0" layoutY="517.0" mnemonicParsing="false" onAction="#tocarPausar" text="|&gt;">
