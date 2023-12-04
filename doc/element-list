@@ -1,0 +1,5 @@
+module:MediaPlayerJava
+application
+br.ufrn.imd.controle
+br.ufrn.imd.dao
+br.ufrn.imd.modelo
