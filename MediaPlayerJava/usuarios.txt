@@ -1,6 +1,0 @@
-ID: null
-Nome: a
-Senha: 12
-Tipo: comum
-Diretório: null
-
