@@ -19,6 +19,7 @@ Escolha Run As > Java Application<br>
 Caso isso não funcione, tente a abordagem a seguir:
 ### 🔧 Instalação 2
 Baixe o zip do projeto e extraia para uma pasta da sua preferência<br>
+Crie um novo projeto JavaFX<br>
 Crie as pastas e packages presentes no projeto<br>
 Mova todas as classes e arquivos<br>
 Clique em Run
