@@ -1,5 +1,5 @@
 # SakuraBeats
-Link github: https://github.com/devHebertfst/SakuraBeats
+Link github: https://github.com/devHebertfst/SakuraBeats<br>
 Player de música feito em Java, utilizando o JavaFX
 ## 🚀 Começando
 ### 📋 Pré-requisitos
