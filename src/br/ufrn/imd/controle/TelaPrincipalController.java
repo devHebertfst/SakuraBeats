@@ -159,7 +159,6 @@ public class TelaPrincipalController extends ControllerUtils implements Initiali
 	    BancoDeDados.getInstance().salvarUsuariosEmArquivo();
 	    BancoDeDiretorios.getInstancia().salvarDiretoriosEmArquivo();
 		BancoDeMusicas.getInstance().carregarMusicasDeArquivo();
-		BancoDePlaylists.getInstance().salvarPlaylistEmArquivo();
 	    exibirNomesMusicas();
 	    exibirNomesDiretorios();
 	    exibirNomesPlaylists();
@@ -531,13 +530,15 @@ public class TelaPrincipalController extends ControllerUtils implements Initiali
      * @param event
      */
     public void selecionarMusica(MouseEvent event) {
-        Musica musica = listMusicas.getSelectionModel().getSelectedItem();
-        Dragboard db = listMusicas.startDragAndDrop(TransferMode.ANY);
-        ClipboardContent content = new ClipboardContent();
-        String musicaString = musica.getNome() + ";" + musica.getCaminho() + ";" + musica.getId();
-        content.putString(musicaString);
-        db.setContent(content);
-        event.consume();
+    	if(listMusicas.getSelectionModel().getSelectedItem()!=null) {
+    		Musica musica = listMusicas.getSelectionModel().getSelectedItem();
+            Dragboard db = listMusicas.startDragAndDrop(TransferMode.ANY);
+            ClipboardContent content = new ClipboardContent();
+            String musicaString = musica.getNome() + ";" + musica.getCaminho() + ";" + musica.getId();
+            content.putString(musicaString);
+            db.setContent(content);
+            event.consume();
+    	}
     }
     
     @FXML
@@ -578,7 +579,7 @@ public class TelaPrincipalController extends ControllerUtils implements Initiali
 
             	selectedPlaylist.getMusicas().add(musica);
 				BancoDePlaylists.getInstance().salvarPlaylistEmArquivo();
-				BancoDeMusicas.getInstance().carregarMusicasDeArquivo();
+				BancoDeMusicas.getInstance().salvarMusicasEmArquivo();
                 listPlaylists.refresh();
                 success = true;
                 Alert alert = new Alert(AlertType.INFORMATION);
