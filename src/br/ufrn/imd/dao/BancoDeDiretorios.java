@@ -1,6 +1,7 @@
 package br.ufrn.imd.dao;
 
 import br.ufrn.imd.modelo.Diretorio;
+import br.ufrn.imd.modelo.Musica;
 import br.ufrn.imd.controle.ServicoAutenticacao;
 import br.ufrn.imd.modelo.Usuario;
 import java.io.File;
@@ -86,10 +87,13 @@ public class BancoDeDiretorios {
     public void salvarDiretoriosEmArquivo() {
         try (PrintWriter writer = new PrintWriter("dados/diretorios.txt")) {
             for (Usuario usuario : BancoDeDados.getInstance().getUsuarios().values()) {
-                if (!usuario.getDiretorios().isEmpty()) {
+                if (!usuario.getDiretorios().isEmpty()) { // Verifica se o usuário tem algum diretório
                     writer.println("ID: " + usuario.getId());
                     for(Diretorio diretorio : usuario.getDiretorios()) {
                         writer.println(diretorio.getCaminho());
+                        for(Musica musica : diretorio.getMusicas()) {
+                            BancoDeMusicas.getInstance().addMusica(musica);
+                        }
                     }
                     writer.println();
                 }
